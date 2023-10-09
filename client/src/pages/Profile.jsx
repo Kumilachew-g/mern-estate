@@ -13,6 +13,7 @@ import {
   updateUserFailure,
 } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 function Profile() {
   const fileRef = useRef(null);
@@ -60,16 +61,20 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       dispatch(updateUserStart());
-      const response = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
+      const response = await axios.post(
+        `/api/user/update/${currentUser._id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const data = response.data;
+
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
         return;
