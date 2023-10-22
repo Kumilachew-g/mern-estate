@@ -6,7 +6,6 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../firebase';
-import { set } from 'mongoose';
 
 function CreateListing() {
   const [files, setFiles] = useState([]);
